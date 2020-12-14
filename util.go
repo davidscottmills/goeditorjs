@@ -3,8 +3,8 @@ package goeditorjs
 import "encoding/json"
 
 // parseEditorJSON parses editorJS data
-func parseEditorJSON(editorJSData string) (*EditorJS, error) {
-	result := &EditorJS{}
+func parseEditorJSON(editorJSData string) (*editorJS, error) {
+	result := &editorJS{}
 	err := json.Unmarshal([]byte(editorJSData), result)
 	if err != nil {
 		return nil, err

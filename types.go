@@ -5,8 +5,8 @@ import (
 	"errors"
 )
 
-// EditorJS rpresents the Editor JS data
-type EditorJS struct {
+// editorJS rpresents the Editor JS data
+type editorJS struct {
 	Blocks []EditorJSBlock `json:"blocks"`
 }
 
@@ -23,26 +23,26 @@ var (
 	ErrBlockHandlerNotFound = errors.New("Handler not found for block type")
 )
 
-// Header represents header data from EditorJS
-type Header struct {
+// header represents header data from EditorJS
+type header struct {
 	Text  string `json:"text"`
 	Level int    `json:"level"`
 }
 
-// Paragraph represents header data from EditorJS
-type Paragraph struct {
+// paragraph represents header data from EditorJS
+type paragraph struct {
 	Text      string `json:"text"`
 	Alignment string `json:"alignment"`
 }
 
-// List represents header data from EditorJS
-type List struct {
+// list represents header data from EditorJS
+type list struct {
 	Style string   `json:"style"`
 	Items []string `json:"items"`
 }
 
-// CodeBox represents header data from EditorJS
-type CodeBox struct {
+// codeBox represents header data from EditorJS
+type codeBox struct {
 	Code     string `json:"code"`
 	Language string `json:"language"`
 }

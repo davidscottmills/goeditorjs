@@ -11,8 +11,8 @@ import (
 // HeaderHandler is the default HeaderHandler for EditorJS HTML generation
 type HeaderHandler struct{}
 
-func (*HeaderHandler) parse(editorJSBlock EditorJSBlock) (*Header, error) {
-	header := &Header{}
+func (*HeaderHandler) parse(editorJSBlock EditorJSBlock) (*header, error) {
+	header := &header{}
 	return header, json.Unmarshal(editorJSBlock.Data, header)
 }
 
@@ -44,8 +44,8 @@ func (h *HeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, e
 // ParagraphHandler is the default ParagraphHandler for EditorJS HTML generation
 type ParagraphHandler struct{}
 
-func (*ParagraphHandler) parse(editorJSBlock EditorJSBlock) (*Paragraph, error) {
-	paragraph := &Paragraph{}
+func (*ParagraphHandler) parse(editorJSBlock EditorJSBlock) (*paragraph, error) {
+	paragraph := &paragraph{}
 	return paragraph, json.Unmarshal(editorJSBlock.Data, paragraph)
 }
 
@@ -86,8 +86,8 @@ func (h *ParagraphHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string
 // ListHandler is the default ListHandler for EditorJS HTML generation
 type ListHandler struct{}
 
-func (*ListHandler) parse(editorJSBlock EditorJSBlock) (*List, error) {
-	list := &List{}
+func (*ListHandler) parse(editorJSBlock EditorJSBlock) (*list, error) {
+	list := &list{}
 	return list, json.Unmarshal(editorJSBlock.Data, list)
 }
 
@@ -143,8 +143,8 @@ func (h *ListHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, err
 // CodeBoxHandler is the default CodeBoxHandler for EditorJS HTML generation
 type CodeBoxHandler struct{}
 
-func (*CodeBoxHandler) parse(editorJSBlock EditorJSBlock) (*CodeBox, error) {
-	codeBox := &CodeBox{}
+func (*CodeBoxHandler) parse(editorJSBlock EditorJSBlock) (*codeBox, error) {
+	codeBox := &codeBox{}
 	return codeBox, json.Unmarshal(editorJSBlock.Data, codeBox)
 }
 
