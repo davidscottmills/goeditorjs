@@ -1,6 +1,9 @@
 package goeditorjs
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // MarkdownEngine is the engine that creates the HTML from EditorJS blocks
 type MarkdownEngine struct {
@@ -28,7 +31,7 @@ func (markdownEngine *MarkdownEngine) RegisterBlockHandlers(handlers ...Markdown
 
 // GenerateMarkdown generates markdown from the editorJS using configured set of markdown handlers
 func (markdownEngine *MarkdownEngine) GenerateMarkdown(editorJSData string) (string, error) {
-	result := ""
+	results := []string{}
 	ejs, err := parseEditorJSON(editorJSData)
 	if err != nil {
 		return "", err
@@ -37,13 +40,13 @@ func (markdownEngine *MarkdownEngine) GenerateMarkdown(editorJSData string) (str
 		if generator, ok := markdownEngine.BlockHandlers[block.Type]; ok {
 			md, err := generator.GenerateMarkdown(block)
 			if err != nil {
-				return result, err
+				return "", err
 			}
-			result += md
+			results = append(results, md)
 		} else {
 			return "", fmt.Errorf("%w, Block Type: %s", ErrBlockHandlerNotFound, block.Type)
 		}
 	}
 
-	return result, nil
+	return strings.Join(results, "\n\n"), nil
 }
