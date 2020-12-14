@@ -1,6 +1,9 @@
 package goeditorjs
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+)
 
 // EditorJS rpresents the Editor JS data
 type EditorJS struct {
@@ -13,6 +16,12 @@ type EditorJSBlock struct {
 	// Data is the Data for an editorJS block in the form of RawMessage ([]byte). It is left up to the Handler to parse the Data field
 	Data json.RawMessage `json:"data"`
 }
+
+var (
+	//ErrBlockHandlerNotFound is returned from GenerateHTML when the HTML engine doesn't have a registered handler
+	//for that type and the HTMLEngine is set to return on errors.
+	ErrBlockHandlerNotFound = errors.New("Handler not found for block type")
+)
 
 // Header represents header data from EditorJS
 type Header struct {

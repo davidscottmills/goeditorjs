@@ -1,7 +1,6 @@
 package goeditorjs
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -16,12 +15,6 @@ type HTMLBlockHandler interface {
 	GenerateHTML(editorJSBlock EditorJSBlock) (string, error)
 }
 
-var (
-	//ErrBlockHandlerNotFound is returned from GenerateHTML when the HTML engine doesn't have a registered handler
-	//for that type and the HTMLEngine is set to return on errors.
-	ErrBlockHandlerNotFound = errors.New("Handler not found for block type")
-)
-
 // NewHTMLEngine creates a new HTMLEngine
 func NewHTMLEngine() *HTMLEngine {
 	bhs := make(map[string]HTMLBlockHandler)
@@ -35,7 +28,7 @@ func (htmlEngine *HTMLEngine) RegisterBlockHandlers(handlers ...HTMLBlockHandler
 	}
 }
 
-// GenerateHTML generates html from the editorJS using configured set of HTML Generators
+// GenerateHTML generates html from the editorJS using configured set of HTML handlers
 func (htmlEngine *HTMLEngine) GenerateHTML(editorJSData string) (string, error) {
 	result := ""
 	ejs, err := parseEditorJSON(editorJSData)

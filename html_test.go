@@ -9,17 +9,17 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-type mockBlockHandler struct {
+type mockHTMLBlockHandler struct {
 	mock.Mock
 	typeName string
 }
 
-func (m *mockBlockHandler) GenerateHTML(editorJSBlock goeditorjs.EditorJSBlock) (string, error) {
+func (m *mockHTMLBlockHandler) GenerateHTML(editorJSBlock goeditorjs.EditorJSBlock) (string, error) {
 	args := m.Called(editorJSBlock)
 	return args.String(0), args.Error(1)
 }
 
-func (m *mockBlockHandler) Type() string {
+func (m *mockHTMLBlockHandler) Type() string {
 	return m.typeName
 }
 
@@ -29,9 +29,9 @@ func Test_NewHTMLEngine(t *testing.T) {
 	require.NotNil(t, eng.BlockHandlers)
 }
 
-func Test_RegisterBlockHandler(t *testing.T) {
-	bh1 := &mockBlockHandler{typeName: "header"}
-	bh2 := &mockBlockHandler{typeName: "list"}
+func Test_HTMLEngine_RegisterBlockHandler(t *testing.T) {
+	bh1 := &mockHTMLBlockHandler{typeName: "header"}
+	bh2 := &mockHTMLBlockHandler{typeName: "list"}
 	eng := &goeditorjs.HTMLEngine{BlockHandlers: make(map[string]goeditorjs.HTMLBlockHandler)}
 	eng.RegisterBlockHandlers(bh1, bh2)
 	require.Equal(t, eng.BlockHandlers["header"], bh1)
@@ -53,7 +53,7 @@ func Test_GenerateHTML_NoHandler_Should_Err(t *testing.T) {
 }
 
 func Test_GenerateHTML_Returns_Err_From_Handler(t *testing.T) {
-	bh := &mockBlockHandler{}
+	bh := &mockHTMLBlockHandler{}
 	mockErr := errors.New("Mock Error")
 	bh.On("GenerateHTML", mock.Anything).Return("", mockErr)
 	editorJSData := `{"time": 1607709186831,"blocks": [{"type": "header","data": {"text": "Heading 1","level": 1}}],"version": "2.19.1"}`
@@ -66,7 +66,7 @@ func Test_GenerateHTML_Returns_Err_From_Handler(t *testing.T) {
 }
 
 func Test_GenerateHTML_Result_Includes_Handler_Result(t *testing.T) {
-	bh := &mockBlockHandler{}
+	bh := &mockHTMLBlockHandler{}
 	handlerResult := "<h1>Hello World</h1>"
 	bh.On("GenerateHTML", mock.Anything).Return(handlerResult, nil)
 	editorJSData := `{"time": 1607709186831,"blocks": [{"type": "header","data": {"text": "Heading 1","level": 1}}],"version": "2.19.1"}`
