@@ -8,7 +8,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_BlockHeaderHandler_GenerateHTML(t *testing.T) {
+func Test_HeaderHandler_GenerateHTML_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.HeaderHandler{}
+	_, err := h.GenerateHTML(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_HeaderHandler_GenerateHTML(t *testing.T) {
 	bhh := &goeditorjs.HeaderHandler{}
 	testData := []struct {
 		data           string
@@ -30,7 +36,13 @@ func Test_BlockHeaderHandler_GenerateHTML(t *testing.T) {
 	}
 }
 
-func Test_BlockHeaderHandler_GenerateMarkdown(t *testing.T) {
+func Test_HeaderHandler_GenerateMarkdown_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.HeaderHandler{}
+	_, err := h.GenerateMarkdown(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_HeaderHandler_GenerateMarkdown(t *testing.T) {
 	bhh := &goeditorjs.HeaderHandler{}
 	testData := []struct {
 		data           string
@@ -52,7 +64,13 @@ func Test_BlockHeaderHandler_GenerateMarkdown(t *testing.T) {
 	}
 }
 
-func Test_BlockParagraphHandler_GenerateHTML_Left(t *testing.T) {
+func Test_ParagraphHandler_GenerateHTML_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ParagraphHandler{}
+	_, err := h.GenerateHTML(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ParagraphHandler_GenerateHTML_Left(t *testing.T) {
 	bph := &goeditorjs.ParagraphHandler{}
 	jsonData := []byte(`{"text": "paragraph","alignment": "left"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "paragraph", Data: jsonData}
@@ -60,7 +78,7 @@ func Test_BlockParagraphHandler_GenerateHTML_Left(t *testing.T) {
 	require.Equal(t, "<p>paragraph</p>", html)
 }
 
-func Test_BlockParagraphHandler_GenerateHTML_Center_Right(t *testing.T) {
+func Test_ParagraphHandler_GenerateHTML_Center_Right(t *testing.T) {
 	bph := &goeditorjs.ParagraphHandler{}
 	testData := []struct {
 		alignment string
@@ -78,7 +96,13 @@ func Test_BlockParagraphHandler_GenerateHTML_Center_Right(t *testing.T) {
 	}
 }
 
-func Test_BlockParagraphHandler_GenerateMarkdown_Left(t *testing.T) {
+func Test_ParagraphHandler_GenerateMarkdown_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ParagraphHandler{}
+	_, err := h.GenerateMarkdown(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ParagraphHandler_GenerateMarkdown_Left(t *testing.T) {
 	bph := &goeditorjs.ParagraphHandler{}
 	jsonData := []byte(`{"text": "paragraph","alignment": "left"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "paragraph", Data: jsonData}
@@ -86,7 +110,7 @@ func Test_BlockParagraphHandler_GenerateMarkdown_Left(t *testing.T) {
 	require.Equal(t, "paragraph", md)
 }
 
-func Test_BlockParagraphHandler_GenerateMarkdown_Center_Right(t *testing.T) {
+func Test_ParagraphHandler_GenerateMarkdown_Center_Right(t *testing.T) {
 	bph := &goeditorjs.ParagraphHandler{}
 	testData := []struct {
 		alignment string
@@ -104,7 +128,13 @@ func Test_BlockParagraphHandler_GenerateMarkdown_Center_Right(t *testing.T) {
 	}
 }
 
-func Test_BlockListHandler_GenerateHTML(t *testing.T) {
+func Test_ListHandler_GenerateHTML_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ListHandler{}
+	_, err := h.GenerateHTML(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ListHandler_GenerateHTML(t *testing.T) {
 	blh := &goeditorjs.ListHandler{}
 	testData := []struct {
 		data           string
@@ -124,7 +154,13 @@ func Test_BlockListHandler_GenerateHTML(t *testing.T) {
 	}
 }
 
-func Test_BlockListHandler_GenerateMarkdown(t *testing.T) {
+func Test_ListHandler_GenerateMarkdown_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ListHandler{}
+	_, err := h.GenerateMarkdown(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ListHandler_GenerateMarkdown(t *testing.T) {
 	blh := &goeditorjs.ListHandler{}
 	testData := []struct {
 		data           string
@@ -144,7 +180,13 @@ func Test_BlockListHandler_GenerateMarkdown(t *testing.T) {
 	}
 }
 
-func Test_BlockCodeBoxHandler_GenerateHTML(t *testing.T) {
+func Test_CodeBoxHandler_GenerateHTML_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.CodeBoxHandler{}
+	_, err := h.GenerateHTML(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_CodeBoxHandler_GenerateHTML(t *testing.T) {
 	bcbh := &goeditorjs.CodeBoxHandler{}
 	jsonData := []byte(`{"language": "go", "code": "func main(){fmt.Println(\"HelloWorld\")}"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "codeBox", Data: jsonData}
@@ -153,7 +195,13 @@ func Test_BlockCodeBoxHandler_GenerateHTML(t *testing.T) {
 	require.Equal(t, expectedResult, html)
 }
 
-func Test_BlockCodeBoxHandler_GenerateMarkdown(t *testing.T) {
+func Test_CodeBoxHandler_GenerateMarkdown_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.CodeBoxHandler{}
+	_, err := h.GenerateMarkdown(goeditorjs.EditorJSBlock{Type: "header", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_CodeBoxHandler_GenerateMarkdown(t *testing.T) {
 	bcbh := &goeditorjs.CodeBoxHandler{}
 	jsonData := []byte(`{"language": "go", "code": "func main(){fmt.Println(\"HelloWorld\")}"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "codeBox", Data: jsonData}
@@ -162,7 +210,7 @@ func Test_BlockCodeBoxHandler_GenerateMarkdown(t *testing.T) {
 	require.Equal(t, expectedResult, md)
 }
 
-func Test_BlockCodeBoxHandler_GenerateMarkdown_Clean(t *testing.T) {
+func Test_CodeBoxHandler_GenerateMarkdown_Clean(t *testing.T) {
 	bcbh := &goeditorjs.CodeBoxHandler{}
 	jsonData := []byte(`{"language": "go", "code": "<span class=\"hljs-keyword\"><span class=\"hljs-keyword\">package</span></span> main<div><br></div><div>import <span class=\"hljs-string\"><span class=\"hljs-string\">\"fmt\"</span></span></div><div><br></div><div><span class=\"hljs-function\"><span class=\"hljs-keyword\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span></span></span><span class=\"hljs-function\"> </span><span class=\"hljs-title\"><span class=\"hljs-function\"><span class=\"hljs-title\">main</span></span></span><span class=\"hljs-params\"><span class=\"hljs-function\"><span class=\"hljs-params\">()</span></span></span></span> {</div><div>  fmt.Println(<span class=\"hljs-string\"><span class=\"hljs-string\">\"Hello World\"</span></span>)</div><div>}</div>"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "codeBox", Data: jsonData}
@@ -171,22 +219,22 @@ func Test_BlockCodeBoxHandler_GenerateMarkdown_Clean(t *testing.T) {
 	require.Equal(t, expectedResult, md)
 }
 
-func Test_BlockHeaderHandler_Type(t *testing.T) {
+func Test_HeaderHandler_Type(t *testing.T) {
 	h := &goeditorjs.HeaderHandler{}
 	require.Equal(t, "header", h.Type())
 }
 
-func Test_BlockParagraphHandler_Type(t *testing.T) {
+func Test_ParagraphHandler_Type(t *testing.T) {
 	h := &goeditorjs.ParagraphHandler{}
 	require.Equal(t, "paragraph", h.Type())
 }
 
-func Test_BlockListHandler_Type(t *testing.T) {
+func Test_ListHandler_Type(t *testing.T) {
 	h := &goeditorjs.ListHandler{}
 	require.Equal(t, "list", h.Type())
 }
 
-func Test_BlockCodeBoxHandler_Type(t *testing.T) {
+func Test_CodeBoxHandler_Type(t *testing.T) {
 	h := &goeditorjs.CodeBoxHandler{}
 	require.Equal(t, "codeBox", h.Type())
 }
