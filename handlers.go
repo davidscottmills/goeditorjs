@@ -3,6 +3,8 @@ package goeditorjs
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
+	"sort"
 	"strings"
 )
 
@@ -168,5 +170,25 @@ func (h *BlockCodeBoxHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (str
 		return "", err
 	}
 
-	return fmt.Sprintf("``` %s\n%s\n```", codeBox.Language, codeBox.Code), nil
+	codeBox.Code = strings.ReplaceAll(codeBox.Code, "<div>", "\n")
+	codeBox.Code = removeHTMLTags(codeBox.Code)
+
+	return fmt.Sprintf("```%s\n%s\n```", codeBox.Language, codeBox.Code), nil
+}
+
+func removeHTMLTags(in string) string {
+	// regex to match html tag
+	const pattern = `(<\/?[a-zA-A]+?[^>]*\/?>)*`
+	r := regexp.MustCompile(pattern)
+	groups := r.FindAllString(in, -1)
+	// should replace long string first
+	sort.Slice(groups, func(i, j int) bool {
+		return len(groups[i]) > len(groups[j])
+	})
+	for _, group := range groups {
+		if strings.TrimSpace(group) != "" {
+			in = strings.ReplaceAll(in, group, "")
+		}
+	}
+	return in
 }

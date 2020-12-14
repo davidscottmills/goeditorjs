@@ -157,7 +157,16 @@ func Test_BlockCodeBoxHandler_GenerateMarkdown(t *testing.T) {
 	bcbh := &goeditorjs.BlockCodeBoxHandler{}
 	jsonData := []byte(`{"language": "go", "code": "func main(){fmt.Println(\"HelloWorld\")}"}`)
 	ejsBlock := goeditorjs.EditorJSBlock{Type: "codeBox", Data: jsonData}
-	expectedResult := "``` go\nfunc main(){fmt.Println(\"HelloWorld\")}\n```"
+	expectedResult := "```go\nfunc main(){fmt.Println(\"HelloWorld\")}\n```"
+	md, _ := bcbh.GenerateMarkdown(ejsBlock)
+	require.Equal(t, expectedResult, md)
+}
+
+func Test_BlockCodeBoxHandler_GenerateMarkdown_Clean(t *testing.T) {
+	bcbh := &goeditorjs.BlockCodeBoxHandler{}
+	jsonData := []byte(`{"language": "go", "code": "<span class=\"hljs-keyword\"><span class=\"hljs-keyword\">package</span></span> main<div><br></div><div>import <span class=\"hljs-string\"><span class=\"hljs-string\">\"fmt\"</span></span></div><div><br></div><div><span class=\"hljs-function\"><span class=\"hljs-keyword\"><span class=\"hljs-function\"><span class=\"hljs-keyword\">func</span></span></span><span class=\"hljs-function\"> </span><span class=\"hljs-title\"><span class=\"hljs-function\"><span class=\"hljs-title\">main</span></span></span><span class=\"hljs-params\"><span class=\"hljs-function\"><span class=\"hljs-params\">()</span></span></span></span> {</div><div>  fmt.Println(<span class=\"hljs-string\"><span class=\"hljs-string\">\"Hello World\"</span></span>)</div><div>}</div>"}`)
+	ejsBlock := goeditorjs.EditorJSBlock{Type: "codeBox", Data: jsonData}
+	expectedResult := "```go\npackage main\n\nimport \"fmt\"\n\nfunc main() {\n  fmt.Println(\"Hello World\")\n}\n```"
 	md, _ := bcbh.GenerateMarkdown(ejsBlock)
 	require.Equal(t, expectedResult, md)
 }

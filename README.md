@@ -161,4 +161,4 @@ func (h *BlockHeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (stri
 ```
 
 ## TODO
-- The markdown output for codebox is really messy HTML and doesn't display correctly. Fix this.
+- Provide more handlers (image, table, etc.)
