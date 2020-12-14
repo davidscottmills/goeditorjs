@@ -3,6 +3,7 @@ package goeditorjs
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 // BlockHeaderHandler is the default BlockHeaderHandler for EditorJS HTML generation
@@ -18,7 +19,7 @@ func (*BlockHeaderHandler) Type() string {
 	return "header"
 }
 
-// GenerateHTML generate html for HeaderBlocks
+// GenerateHTML generates html for HeaderBlocks
 func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	header, err := h.parse(editorJSBlock)
 	if err != nil {
@@ -26,6 +27,16 @@ func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, 
 	}
 
 	return fmt.Sprintf("<h%d>%s</h%d>", header.Level, header.Text, header.Level), nil
+}
+
+// GenerateMarkdown generates markdown for HeaderBlocks
+func (h *BlockHeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+	header, err := h.parse(editorJSBlock)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("%s %s", strings.Repeat("#", header.Level), header.Text), nil
 }
 
 // BlockParagraphHandler is the default BlockParagraphHandler for EditorJS HTML generation
@@ -41,7 +52,7 @@ func (*BlockParagraphHandler) Type() string {
 	return "paragraph"
 }
 
-// GenerateHTML generate html for ParagraphBlocks
+// GenerateHTML generates html for ParagraphBlocks
 func (h *BlockParagraphHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	paragraph, err := h.parse(editorJSBlock)
 	if err != nil {
@@ -53,6 +64,21 @@ func (h *BlockParagraphHandler) GenerateHTML(editorJSBlock EditorJSBlock) (strin
 	}
 
 	return fmt.Sprintf(`<p>%s</p>`, paragraph.Text), nil
+}
+
+// GenerateMarkdown generates markdown for ParagraphBlocks
+func (h *BlockParagraphHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+	paragraph, err := h.parse(editorJSBlock)
+	if err != nil {
+		return "", err
+	}
+
+	if paragraph.Alignment != "left" {
+		// Native markdown doesn't support alignment, so we'll use html instead.
+		return fmt.Sprintf(`<p style="text-align:%s">%s</p>`, paragraph.Alignment, paragraph.Text), nil
+	}
+
+	return paragraph.Text, nil
 }
 
 // BlockListHandler is the default BlockListHandler for EditorJS HTML generation
@@ -68,7 +94,7 @@ func (*BlockListHandler) Type() string {
 	return "list"
 }
 
-// GenerateHTML generate html for ListBlocks
+// GenerateHTML generates html for ListBlocks
 func (h *BlockListHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	list, err := h.parse(editorJSBlock)
 	if err != nil {
@@ -90,6 +116,28 @@ func (h *BlockListHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, er
 	return fmt.Sprintf(result, innerData), nil
 }
 
+// GenerateMarkdown generates markdown for ListBlocks
+func (h *BlockListHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+	list, err := h.parse(editorJSBlock)
+	if err != nil {
+		return "", err
+	}
+
+	listItemPrefix := ""
+	if list.Style == "ordered" {
+		listItemPrefix = "1. "
+	} else {
+		listItemPrefix = "- "
+	}
+
+	results := []string{}
+	for _, s := range list.Items {
+		results = append(results, listItemPrefix+s)
+	}
+
+	return strings.Join(results, "\n"), nil
+}
+
 // BlockCodeBoxHandler is the default BlockCodeBoxHandler for EditorJS HTML generation
 type BlockCodeBoxHandler struct{}
 
@@ -103,7 +151,7 @@ func (*BlockCodeBoxHandler) Type() string {
 	return "codeBox"
 }
 
-// GenerateHTML generate html for CodeBoxBlocks
+// GenerateHTML generates html for CodeBoxBlocks
 func (h *BlockCodeBoxHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	codeBox, err := h.parse(editorJSBlock)
 	if err != nil {
@@ -111,4 +159,14 @@ func (h *BlockCodeBoxHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string,
 	}
 
 	return fmt.Sprintf(`<pre><code class="%s">%s</code></pre>`, codeBox.Language, codeBox.Code), nil
+}
+
+// GenerateMarkdown generates markdown for CodeBoxBlocks
+func (h *BlockCodeBoxHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+	codeBox, err := h.parse(editorJSBlock)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("``` %s\n%s\n```", codeBox.Language, codeBox.Code), nil
 }
