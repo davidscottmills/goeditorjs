@@ -23,20 +23,6 @@ func (m *mockBlockHandler) Type() string {
 	return m.typeName
 }
 
-func Test_ParseEditorJSON(t *testing.T) {
-	editorJSData := `{"time": 1607709186831,"blocks": [{"type": "header","data": {"text": "Heading 1","level": 1}}],"version": "2.19.1"}`
-	editorJS, err := goeditorjs.ParseEditorJSON(editorJSData)
-	require.NoError(t, err)
-	require.Len(t, editorJS.Blocks, 1)
-}
-
-func Test_ParseEditorJSON_Err_Empty(t *testing.T) {
-	editorJSData := ``
-
-	_, err := goeditorjs.ParseEditorJSON(editorJSData)
-	require.Error(t, err)
-}
-
 func Test_NewHTMLEngine(t *testing.T) {
 	eng := goeditorjs.NewHTMLEngine()
 	require.NotNil(t, eng)
@@ -44,10 +30,12 @@ func Test_NewHTMLEngine(t *testing.T) {
 }
 
 func Test_RegisterBlockHandler(t *testing.T) {
-	bh := &mockBlockHandler{typeName: "header"}
+	bh1 := &mockBlockHandler{typeName: "header"}
+	bh2 := &mockBlockHandler{typeName: "list"}
 	eng := &goeditorjs.HTMLEngine{BlockHandlers: make(map[string]goeditorjs.HTMLBlockHandler)}
-	eng.RegisterBlockHandler(bh)
-	require.Equal(t, eng.BlockHandlers["header"], bh)
+	eng.RegisterBlockHandlers(bh1, bh2)
+	require.Equal(t, eng.BlockHandlers["header"], bh1)
+	require.Equal(t, eng.BlockHandlers["list"], bh2)
 }
 
 func Test_GenerateHTML_Returns_Parse_Err(t *testing.T) {
