@@ -18,10 +18,10 @@ func main() {
 	// Generate HTML and save it to a file
 	htmlEngine := goeditorjs.NewHTMLEngine()
 	htmlEngine.RegisterBlockHandlers(
-		&goeditorjs.BlockHeaderHandler{},
-		&goeditorjs.BlockParagraphHandler{},
-		&goeditorjs.BlockListHandler{},
-		&goeditorjs.BlockCodeBoxHandler{},
+		&goeditorjs.HeaderHandler{},
+		&goeditorjs.ParagraphHandler{},
+		&goeditorjs.ListHandler{},
+		&goeditorjs.CodeBoxHandler{},
 	)
 	html, err := htmlEngine.GenerateHTML(ejs)
 	if err != nil {
@@ -36,10 +36,10 @@ func main() {
 	// Generate markdown and save it to a file
 	markdownEngine := goeditorjs.NewMarkdownEngine()
 	markdownEngine.RegisterBlockHandlers(
-		&goeditorjs.BlockHeaderHandler{},
-		&goeditorjs.BlockParagraphHandler{},
-		&goeditorjs.BlockListHandler{},
-		&goeditorjs.BlockCodeBoxHandler{},
+		&goeditorjs.HeaderHandler{},
+		&goeditorjs.ParagraphHandler{},
+		&goeditorjs.ListHandler{},
+		&goeditorjs.CodeBoxHandler{},
 	)
 	md, err := markdownEngine.GenerateMarkdown(ejs)
 	if err != nil {

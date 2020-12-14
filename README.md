@@ -33,7 +33,7 @@ func main() {
     htmlEngine := goeditorjs.NewHTMLEngine()
     // Register the handlers you wish to use
 	htmlEngine.RegisterBlockHandlers(
-		&goeditorjs.BlockHeaderHandler{},
+		&goeditorjs.HeaderHandler{},
 		&goeditorjs.BlockParagraphHandler{},
 		&goeditorjs.BlockListHandler{},
 		&goeditorjs.BlockCodeBoxHandler{},
@@ -55,7 +55,7 @@ func main() {
 	markdownEngine := goeditorjs.NewMarkdownEngine()
     // Register the handlers you wish to use
 	markdownEngine.RegisterBlockHandlers(
-		&goeditorjs.BlockHeaderHandler{},
+		&goeditorjs.HeaderHandler{},
 		&goeditorjs.BlockParagraphHandler{},
 		&goeditorjs.BlockListHandler{},
 		&goeditorjs.BlockCodeBoxHandler{},
@@ -118,8 +118,8 @@ import (
 	"fmt"
 )
 
-// BlockHeaderHandler is the default BlockHeaderHandler for EditorJS HTML generation
-type BlockHeaderHandler struct {
+// HeaderHandler is the default HeaderHandler for EditorJS HTML generation
+type HeaderHandler struct {
     // Notice that you could put some configurable options in this struct and then use them in your handler
 }
 
@@ -129,18 +129,18 @@ type Header struct {
 	Level int    `json:"level"`
 }
 
-func (*BlockHeaderHandler) parse(editorJSBlock EditorJSBlock) (*Header, error) {
+func (*HeaderHandler) parse(editorJSBlock EditorJSBlock) (*Header, error) {
 	header := &Header{}
 	return header, json.Unmarshal(editorJSBlock.Data, header)
 }
 
 // Type "header"
-func (*BlockHeaderHandler) Type() string {
+func (*HeaderHandler) Type() string {
 	return "header"
 }
 
 // GenerateHTML generates html for HeaderBlocks
-func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
+func (h *HeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	header, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -150,7 +150,7 @@ func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, 
 }
 
 // GenerateMarkdown generates markdown for HeaderBlocks
-func (h *BlockHeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+func (h *HeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
 	header, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err

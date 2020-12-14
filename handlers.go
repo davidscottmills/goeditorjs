@@ -8,21 +8,21 @@ import (
 	"strings"
 )
 
-// BlockHeaderHandler is the default BlockHeaderHandler for EditorJS HTML generation
-type BlockHeaderHandler struct{}
+// HeaderHandler is the default HeaderHandler for EditorJS HTML generation
+type HeaderHandler struct{}
 
-func (*BlockHeaderHandler) parse(editorJSBlock EditorJSBlock) (*Header, error) {
+func (*HeaderHandler) parse(editorJSBlock EditorJSBlock) (*Header, error) {
 	header := &Header{}
 	return header, json.Unmarshal(editorJSBlock.Data, header)
 }
 
 // Type "header"
-func (*BlockHeaderHandler) Type() string {
+func (*HeaderHandler) Type() string {
 	return "header"
 }
 
 // GenerateHTML generates html for HeaderBlocks
-func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
+func (h *HeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	header, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -32,7 +32,7 @@ func (h *BlockHeaderHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, 
 }
 
 // GenerateMarkdown generates markdown for HeaderBlocks
-func (h *BlockHeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+func (h *HeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
 	header, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -41,21 +41,21 @@ func (h *BlockHeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (stri
 	return fmt.Sprintf("%s %s", strings.Repeat("#", header.Level), header.Text), nil
 }
 
-// BlockParagraphHandler is the default BlockParagraphHandler for EditorJS HTML generation
-type BlockParagraphHandler struct{}
+// ParagraphHandler is the default ParagraphHandler for EditorJS HTML generation
+type ParagraphHandler struct{}
 
-func (*BlockParagraphHandler) parse(editorJSBlock EditorJSBlock) (*Paragraph, error) {
+func (*ParagraphHandler) parse(editorJSBlock EditorJSBlock) (*Paragraph, error) {
 	paragraph := &Paragraph{}
 	return paragraph, json.Unmarshal(editorJSBlock.Data, paragraph)
 }
 
 // Type "paragraph"
-func (*BlockParagraphHandler) Type() string {
+func (*ParagraphHandler) Type() string {
 	return "paragraph"
 }
 
 // GenerateHTML generates html for ParagraphBlocks
-func (h *BlockParagraphHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
+func (h *ParagraphHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	paragraph, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -69,7 +69,7 @@ func (h *BlockParagraphHandler) GenerateHTML(editorJSBlock EditorJSBlock) (strin
 }
 
 // GenerateMarkdown generates markdown for ParagraphBlocks
-func (h *BlockParagraphHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+func (h *ParagraphHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
 	paragraph, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -83,21 +83,21 @@ func (h *BlockParagraphHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (s
 	return paragraph.Text, nil
 }
 
-// BlockListHandler is the default BlockListHandler for EditorJS HTML generation
-type BlockListHandler struct{}
+// ListHandler is the default ListHandler for EditorJS HTML generation
+type ListHandler struct{}
 
-func (*BlockListHandler) parse(editorJSBlock EditorJSBlock) (*List, error) {
+func (*ListHandler) parse(editorJSBlock EditorJSBlock) (*List, error) {
 	list := &List{}
 	return list, json.Unmarshal(editorJSBlock.Data, list)
 }
 
 // Type "list"
-func (*BlockListHandler) Type() string {
+func (*ListHandler) Type() string {
 	return "list"
 }
 
 // GenerateHTML generates html for ListBlocks
-func (h *BlockListHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
+func (h *ListHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	list, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -119,7 +119,7 @@ func (h *BlockListHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, er
 }
 
 // GenerateMarkdown generates markdown for ListBlocks
-func (h *BlockListHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+func (h *ListHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
 	list, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -140,21 +140,21 @@ func (h *BlockListHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string
 	return strings.Join(results, "\n"), nil
 }
 
-// BlockCodeBoxHandler is the default BlockCodeBoxHandler for EditorJS HTML generation
-type BlockCodeBoxHandler struct{}
+// CodeBoxHandler is the default CodeBoxHandler for EditorJS HTML generation
+type CodeBoxHandler struct{}
 
-func (*BlockCodeBoxHandler) parse(editorJSBlock EditorJSBlock) (*CodeBox, error) {
+func (*CodeBoxHandler) parse(editorJSBlock EditorJSBlock) (*CodeBox, error) {
 	codeBox := &CodeBox{}
 	return codeBox, json.Unmarshal(editorJSBlock.Data, codeBox)
 }
 
 // Type "codeBox"
-func (*BlockCodeBoxHandler) Type() string {
+func (*CodeBoxHandler) Type() string {
 	return "codeBox"
 }
 
 // GenerateHTML generates html for CodeBoxBlocks
-func (h *BlockCodeBoxHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
+func (h *CodeBoxHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string, error) {
 	codeBox, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
@@ -164,7 +164,7 @@ func (h *BlockCodeBoxHandler) GenerateHTML(editorJSBlock EditorJSBlock) (string,
 }
 
 // GenerateMarkdown generates markdown for CodeBoxBlocks
-func (h *BlockCodeBoxHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
+func (h *CodeBoxHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, error) {
 	codeBox, err := h.parse(editorJSBlock)
 	if err != nil {
 		return "", err
