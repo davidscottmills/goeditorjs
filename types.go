@@ -29,20 +29,25 @@ type header struct {
 	Level int    `json:"level"`
 }
 
-// paragraph represents header data from EditorJS
+// paragraph represents paragraph data from EditorJS
 type paragraph struct {
 	Text      string `json:"text"`
 	Alignment string `json:"alignment"`
 }
 
-// list represents header data from EditorJS
+// list represents list data from EditorJS
 type list struct {
 	Style string   `json:"style"`
 	Items []string `json:"items"`
 }
 
-// codeBox represents header data from EditorJS
+// codeBox represents code box data from EditorJS
 type codeBox struct {
 	Code     string `json:"code"`
 	Language string `json:"language"`
+}
+
+// raw represents raw html data from EditorJS
+type raw struct {
+	HTML string `json:"html"`
 }

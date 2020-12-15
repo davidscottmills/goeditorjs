@@ -22,6 +22,7 @@ func main() {
 		&goeditorjs.ParagraphHandler{},
 		&goeditorjs.ListHandler{},
 		&goeditorjs.CodeBoxHandler{},
+		&goeditorjs.RawHTMLHandler{},
 	)
 	html, err := htmlEngine.GenerateHTML(ejs)
 	if err != nil {
@@ -40,6 +41,7 @@ func main() {
 		&goeditorjs.ParagraphHandler{},
 		&goeditorjs.ListHandler{},
 		&goeditorjs.CodeBoxHandler{},
+		&goeditorjs.RawHTMLHandler{},
 	)
 	md, err := markdownEngine.GenerateMarkdown(ejs)
 	if err != nil {

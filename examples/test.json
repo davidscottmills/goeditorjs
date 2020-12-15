@@ -191,6 +191,12 @@
                 "text": "Right",
                 "alignment": "right"
             }
+        },
+        {
+            "type": "raw",
+            "data": {
+                "html": "<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>"
+            }
         }
     ],
     "version": "2.19.1"
