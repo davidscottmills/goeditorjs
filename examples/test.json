@@ -193,9 +193,15 @@
             }
         },
         {
-            "type": "raw",
+            "type": "image",
             "data": {
-                "html": "<div style=\"background: #000; color: #fff; font-size: 30px; padding: 50px;\">Any HTML code</div>"
+                "file": {
+                    "url": "https://www.w3schools.com/html/pic_trulli.jpg"
+                },
+                "caption": "Example Captions",
+                "withBorder": true,
+                "stretched": true,
+                "withBackground": true
             }
         }
     ],

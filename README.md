@@ -169,4 +169,5 @@ func (h *HeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, e
 ```
 
 ## TODO
+
 - Provide more handlers (image, table, etc.)

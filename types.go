@@ -51,3 +51,16 @@ type codeBox struct {
 type raw struct {
 	HTML string `json:"html"`
 }
+
+// image represents image data from EditorJS
+type image struct {
+	File           file   `json:"file"`
+	Caption        string `json:"caption"`
+	WithBorder     bool   `json:"withBorder"`
+	WithBackground bool   `json:"withBackground"`
+	Stretched      bool   `json:"stretched"`
+}
+
+type file struct {
+	URL string `json:"url"`
+}

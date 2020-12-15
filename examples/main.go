@@ -23,6 +23,10 @@ func main() {
 		&goeditorjs.ListHandler{},
 		&goeditorjs.CodeBoxHandler{},
 		&goeditorjs.RawHTMLHandler{},
+		&goeditorjs.ImageHandler{Options: &goeditorjs.ImageHandlerOptions{
+			StretchClass:    "imageStretched",
+			BorderClass:     "imageBorder",
+			BackgroundClass: "imageBackground"}},
 	)
 	html, err := htmlEngine.GenerateHTML(ejs)
 	if err != nil {
@@ -42,6 +46,10 @@ func main() {
 		&goeditorjs.ListHandler{},
 		&goeditorjs.CodeBoxHandler{},
 		&goeditorjs.RawHTMLHandler{},
+		&goeditorjs.ImageHandler{Options: &goeditorjs.ImageHandlerOptions{
+			StretchClass:    "imageStretched",
+			BorderClass:     "imageBorder",
+			BackgroundClass: "imageBackground"}},
 	)
 	md, err := markdownEngine.GenerateMarkdown(ejs)
 	if err != nil {

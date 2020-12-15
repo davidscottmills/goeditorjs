@@ -273,3 +273,93 @@ func Test_RawHTMLHandler_GenerateMarkdown(t *testing.T) {
 	md, _ := h.GenerateMarkdown(ejsBlock)
 	require.Equal(t, expectedResult, md)
 }
+
+func Test_ImageHandler_Type(t *testing.T) {
+	h := &goeditorjs.ImageHandler{}
+	require.Equal(t, "image", h.Type())
+}
+
+func Test_ImageHandler_GenerateHTML_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ImageHandler{}
+	_, err := h.GenerateHTML(goeditorjs.EditorJSBlock{Type: "image", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ImageHandler_GenerateHTML(t *testing.T) {
+	h := &goeditorjs.ImageHandler{}
+
+	testData := []struct {
+		data           string
+		expectedResult string
+	}{
+		// Full test with defaults
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "Example Captions","withBorder": true,"stretched": true,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="Example Captions" class="image-tool--stretched image-tool--withBorder image-tool--withBackground"/>`},
+		// No captions
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": true,"stretched": true,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--stretched image-tool--withBorder image-tool--withBackground"/>`},
+		// Border
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": true,"stretched": false,"withBackground": false}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--withBorder"/>`},
+		// Stretch
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": true,"withBackground": false}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--stretched"/>`},
+		// Background
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": false,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--withBackground"/>`},
+		// No classes
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": false,"withBackground": false}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" />`},
+	}
+
+	for _, td := range testData {
+		jsonData := []byte(td.data)
+		ejsBlock := goeditorjs.EditorJSBlock{Type: "image", Data: jsonData}
+		result, _ := h.GenerateHTML(ejsBlock)
+		require.Equal(t, td.expectedResult, result)
+	}
+}
+
+func Test_ImageHandler_GenerateMarkdown_Returns_Parse_Err(t *testing.T) {
+	h := &goeditorjs.ImageHandler{}
+	_, err := h.GenerateMarkdown(goeditorjs.EditorJSBlock{Type: "image", Data: []byte{}})
+	require.Error(t, err)
+}
+
+func Test_ImageHandler_GenerateMarkdown(t *testing.T) {
+	h := &goeditorjs.ImageHandler{}
+
+	testData := []struct {
+		data           string
+		expectedResult string
+	}{
+		// Full test with defaults
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "Example Captions","withBorder": true,"stretched": true,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="Example Captions" class="image-tool--stretched image-tool--withBorder image-tool--withBackground"/>`},
+		// No captions
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": true,"stretched": true,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--stretched image-tool--withBorder image-tool--withBackground"/>`},
+		// Border
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": true,"stretched": false,"withBackground": false}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--withBorder"/>`},
+		// Stretch
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": true,"withBackground": false}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--stretched"/>`},
+		// Background
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": false,"withBackground": true}`,
+			expectedResult: `<img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="" class="image-tool--withBackground"/>`},
+		// No classes or caption
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "","withBorder": false,"stretched": false,"withBackground": false}`,
+			expectedResult: `![alt text](https://www.w3schools.com/html/pic_trulli.jpg "")`},
+		// No classes
+		{data: `{"file":{"url": "https://www.w3schools.com/html/pic_trulli.jpg"},"caption": "Some caption","withBorder": false,"stretched": false,"withBackground": false}`,
+			expectedResult: `![alt text](https://www.w3schools.com/html/pic_trulli.jpg "Some caption")`},
+	}
+
+	for _, td := range testData {
+		jsonData := []byte(td.data)
+		ejsBlock := goeditorjs.EditorJSBlock{Type: "image", Data: jsonData}
+		result, _ := h.GenerateMarkdown(ejsBlock)
+		require.Equal(t, td.expectedResult, result)
+	}
+}
