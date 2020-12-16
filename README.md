@@ -3,7 +3,7 @@
 An extensible library that converts [editor.js](https://editorjs.io/) data into HTML or markdown.
 
 [![test and build](https://github.com/davidscottmills/goeditorjs/workflows/test%20and%20build/badge.svg)](https://github.com/davidscottmills/goeditorjs/actions?query=workflow%3A%22test+and+build%22)
-[![Coverage Status](https://coveralls.io/repos/github/davidscottmills/goeditorjs/badge.svg)](https://coveralls.io/github/davidscottmills/goeditorjs)
+[![Coverage Status](https://coveralls.io/repos/github/davidscottmills/goeditorjs/badge.svg?branch=main)](https://coveralls.io/github/davidscottmills/goeditorjs?branch=main)
 [![Go Report Card](https://goreportcard.com/badge/github.com/davidscottmills/goeditorjs)](https://goreportcard.com/report/github.com/davidscottmills/goeditorjs)
 [![Documentation](https://godoc.org/github.com/davidscottmills/goeditorjs?status.svg)](http://godoc.org/github.com/davidscottmills/goeditorjs)
 [![GitHub issues](https://img.shields.io/github/issues/davidscottmills/goeditorjs.svg)](https://github.com/davidscottmills/goeditorjs/issues)
