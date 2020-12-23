@@ -42,9 +42,9 @@ func main() {
     // Register the handlers you wish to use
 	htmlEngine.RegisterBlockHandlers(
 		&goeditorjs.HeaderHandler{},
-		&goeditorjs.BlockParagraphHandler{},
-		&goeditorjs.BlockListHandler{},
-		&goeditorjs.BlockCodeBoxHandler{},
+		&goeditorjs.ParagraphHandler{},
+		&goeditorjs.ListHandler{},
+		&goeditorjs.CodeBoxHandler{},
 	)
     // Generate the html
 	html, err := htmlEngine.GenerateHTML(ejs)
@@ -64,9 +64,9 @@ func main() {
     // Register the handlers you wish to use
 	markdownEngine.RegisterBlockHandlers(
 		&goeditorjs.HeaderHandler{},
-		&goeditorjs.BlockParagraphHandler{},
-		&goeditorjs.BlockListHandler{},
-		&goeditorjs.BlockCodeBoxHandler{},
+		&goeditorjs.ParagraphHandler{},
+		&goeditorjs.ListHandler{},
+		&goeditorjs.CodeBoxHandler{},
     )
     // Generate the markdown
 	md, err := markdownEngine.GenerateMarkdown(ejs)
@@ -170,4 +170,4 @@ func (h *HeaderHandler) GenerateMarkdown(editorJSBlock EditorJSBlock) (string, e
 
 ## TODO
 
-- Provide more handlers (image, table, etc.)
+- Provide more handlers (table, etc.)
