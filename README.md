@@ -90,7 +90,7 @@ This package provides two interfaces for handlers.
 - `HTMLBlockHandler`
 
   ```go
-  type MarkdownBlockHandler interface {
+  type HTMLBlockHandler interface {
       Type() string // Type returns the type the block handler supports as a string
       GenerateHTML(editorJSBlock EditorJSBlock) (string, error) // Return associated HTML
   }
